@@ -1,6 +1,6 @@
 "use client";
 
-import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { togglePublished, deleteProject } from "@/app/actions/projects";
 import { Button } from "@/components/ui/button";
 import {
@@ -22,6 +22,7 @@ interface ProjectActionsProps {
 
 export function ProjectActions({ project }: ProjectActionsProps) {
   const [isPending, startTransition] = useTransition();
+  const router = useRouter();
 
   return (
     <DropdownMenu>
@@ -37,18 +38,17 @@ export function ProjectActions({ project }: ProjectActionsProps) {
       >
         <DropdownMenuItem
           className="text-zinc-300 cursor-pointer"
-          onSelect={() => {
-            window.location.href = `/admin/projects/${project.id}/edit`;
-          }}
+          onClick={() => router.push(`/admin/projects/${project.id}/edit`)}
         >
           <PencilIcon className="h-4 w-4 mr-2" />
           Edit
         </DropdownMenuItem>
         <DropdownMenuItem
           className="text-zinc-300 cursor-pointer"
-          onSelect={() =>
-            startTransition(() => togglePublished(project.id))
-          }
+          onClick={(e) => {
+            e.preventDefault();
+            startTransition(() => togglePublished(project.id));
+          }}
         >
           {project.published ? (
             <>
@@ -65,7 +65,8 @@ export function ProjectActions({ project }: ProjectActionsProps) {
         <DropdownMenuSeparator className="bg-zinc-800" />
         <DropdownMenuItem
           className="text-red-400 cursor-pointer focus:text-red-400 focus:bg-red-500/10"
-          onSelect={() => {
+          onClick={(e) => {
+            e.preventDefault();
             if (confirm("Are you sure you want to delete this project?")) {
               startTransition(() => deleteProject(project.id));
             }
