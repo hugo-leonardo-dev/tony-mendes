@@ -7,7 +7,7 @@ import { Badge } from "@/components/ui/badge";
 import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import type { Metadata } from "next";
-import { getYouTubeThumbnail } from "@/lib/youtube";
+import { getVideoThumbnail } from "@/lib/video";
 
 interface Props {
   params: Promise<{ id: string }>;
@@ -19,7 +19,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   if (!project) return { title: "Not Found" };
 
-  const thumbnail = project.thumbnailUrl || getYouTubeThumbnail(project.youtubeUrl);
+  const thumbnail = project.thumbnailUrl || await getVideoThumbnail(project.videoUrl);
 
   return {
     title: `${project.title} — Tony Mendes`,
@@ -62,7 +62,7 @@ export default async function ProjectPage({ params }: Props) {
           </Link>
 
           {/* Video */}
-          <VideoEmbed url={project.youtubeUrl} title={project.title} />
+          <VideoEmbed url={project.videoUrl} title={project.title} />
 
           {/* Project info */}
           <div className="mt-8 space-y-6">

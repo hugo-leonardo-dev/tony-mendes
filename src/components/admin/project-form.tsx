@@ -7,14 +7,14 @@ import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useEffect, useState } from "react";
-import { getYouTubeThumbnail } from "@/lib/youtube";
+import { getVideoThumbnail } from "@/lib/video";
 
 interface ProjectFormProps {
   action: (formData: FormData) => void;
   defaultValues?: {
     title?: string;
     description?: string;
-    youtubeUrl?: string;
+    videoUrl?: string;
     thumbnailUrl?: string;
     tags?: string;
     tools?: string;
@@ -33,19 +33,22 @@ export function ProjectForm({
   const [published, setPublished] = useState(
     defaultValues?.published ?? false
   );
-  const [youtubeUrl, setYoutubeUrl] = useState(
-    defaultValues?.youtubeUrl ?? ""
+  const [videoUrl, setVideoUrl] = useState(
+    defaultValues?.videoUrl ?? ""
   );
   const [previewThumb, setPreviewThumb] = useState<string | null>(null);
 
   useEffect(() => {
-    if (youtubeUrl) {
-      const thumb = getYouTubeThumbnail(youtubeUrl, "hqdefault");
-      setPreviewThumb(thumb);
-    } else {
-      setPreviewThumb(null);
+    async function fetchThumb() {
+      if (videoUrl) {
+        const thumb = await getVideoThumbnail(videoUrl, "hqdefault");
+        setPreviewThumb(thumb);
+      } else {
+        setPreviewThumb(null);
+      }
     }
-  }, [youtubeUrl]);
+    fetchThumb();
+  }, [videoUrl]);
 
   return (
     <form action={action} className="space-y-6">
@@ -84,23 +87,23 @@ export function ProjectForm({
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="youtubeUrl" className="text-zinc-300">
-              YouTube URL *
+            <Label htmlFor="videoUrl" className="text-zinc-300">
+              Video URL (YouTube or Vimeo) *
             </Label>
             <Input
-              id="youtubeUrl"
-              name="youtubeUrl"
-              defaultValue={defaultValues?.youtubeUrl}
+              id="videoUrl"
+              name="videoUrl"
+              defaultValue={defaultValues?.videoUrl}
               required
-              placeholder="https://youtube.com/watch?v=..."
+              placeholder="https://youtube.com/watch?v=... or https://vimeo.com/..."
               className="bg-zinc-800 border-zinc-700 text-white placeholder:text-zinc-500"
-              onChange={(e) => setYoutubeUrl(e.target.value)}
+              onChange={(e) => setVideoUrl(e.target.value)}
             />
             {previewThumb && (
               <div className="mt-2 rounded-lg overflow-hidden border border-zinc-700 w-48">
                 <img
                   src={previewThumb}
-                  alt="YouTube thumbnail preview"
+                  alt="Video thumbnail preview"
                   className="w-full h-auto"
                 />
                 <p className="text-xs text-zinc-500 p-2">

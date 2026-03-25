@@ -20,7 +20,7 @@ model Project {
   id           String   @id @default(cuid())
   title        String
   description  String
-  youtubeUrl   String
+  videoUrl     String
   thumbnailUrl String?
   tags         String   @default("") // Comma-separated tags for SQLite compatibility
   tools        String?

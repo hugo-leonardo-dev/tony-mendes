@@ -28,7 +28,7 @@ export default async function EditProjectPage({
         defaultValues={{
           title: project.title,
           description: project.description,
-          youtubeUrl: project.youtubeUrl,
+          videoUrl: project.videoUrl,
           thumbnailUrl: project.thumbnailUrl ?? "",
           tags: project.tags,
           tools: project.tools ?? "",

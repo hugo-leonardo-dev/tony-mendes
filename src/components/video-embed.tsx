@@ -5,24 +5,10 @@ interface VideoEmbedProps {
   title?: string;
 }
 
+import { getVideoEmbedUrl } from "@/lib/video";
+
 export function VideoEmbed({ url, title = "Video" }: VideoEmbedProps) {
-  // Extract YouTube video ID
-  const getEmbedUrl = (url: string) => {
-    const patterns = [
-      /(?:youtube\.com\/watch\?v=)([a-zA-Z0-9_-]{11})/,
-      /(?:youtu\.be\/)([a-zA-Z0-9_-]{11})/,
-      /(?:youtube\.com\/embed\/)([a-zA-Z0-9_-]{11})/,
-      /(?:youtube\.com\/shorts\/)([a-zA-Z0-9_-]{11})/,
-    ];
-
-    for (const pattern of patterns) {
-      const match = url.match(pattern);
-      if (match) return `https://www.youtube.com/embed/${match[1]}`;
-    }
-    return null;
-  };
-
-  const embedUrl = getEmbedUrl(url);
+  const embedUrl = getVideoEmbedUrl(url);
 
   if (!embedUrl) {
     return (

@@ -5,7 +5,7 @@ import { redirect } from "next/navigation";
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { projectSchema } from "@/lib/validators";
-import { getYouTubeThumbnail } from "@/lib/youtube";
+import { getVideoThumbnail } from "@/lib/video";
 
 async function requireAuth() {
   const session = await auth();
@@ -21,7 +21,7 @@ export async function createProject(formData: FormData) {
   const raw = {
     title: formData.get("title") as string,
     description: formData.get("description") as string,
-    youtubeUrl: formData.get("youtubeUrl") as string,
+    videoUrl: formData.get("videoUrl") as string,
     thumbnailUrl: (formData.get("thumbnailUrl") as string) || "",
     tags: formData.get("tags") as string,
     tools: formData.get("tools") as string,
@@ -35,13 +35,13 @@ export async function createProject(formData: FormData) {
   const tags = validated.tags || "";
 
   const thumbnailUrl =
-    validated.thumbnailUrl || getYouTubeThumbnail(validated.youtubeUrl) || "";
+    validated.thumbnailUrl || (await getVideoThumbnail(validated.videoUrl)) || "";
 
   await prisma.project.create({
     data: {
       title: validated.title,
       description: validated.description,
-      youtubeUrl: validated.youtubeUrl,
+      videoUrl: validated.videoUrl,
       thumbnailUrl,
       tags,
       tools: validated.tools || null,
@@ -62,7 +62,7 @@ export async function updateProject(id: string, formData: FormData) {
   const raw = {
     title: formData.get("title") as string,
     description: formData.get("description") as string,
-    youtubeUrl: formData.get("youtubeUrl") as string,
+    videoUrl: formData.get("videoUrl") as string,
     thumbnailUrl: (formData.get("thumbnailUrl") as string) || "",
     tags: formData.get("tags") as string,
     tools: formData.get("tools") as string,
@@ -76,14 +76,14 @@ export async function updateProject(id: string, formData: FormData) {
   const tags = validated.tags || "";
 
   const thumbnailUrl =
-    validated.thumbnailUrl || getYouTubeThumbnail(validated.youtubeUrl) || "";
+    validated.thumbnailUrl || (await getVideoThumbnail(validated.videoUrl)) || "";
 
   await prisma.project.update({
     where: { id },
     data: {
       title: validated.title,
       description: validated.description,
-      youtubeUrl: validated.youtubeUrl,
+      videoUrl: validated.videoUrl,
       thumbnailUrl,
       tags,
       tools: validated.tools || null,
