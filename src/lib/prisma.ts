@@ -8,13 +8,18 @@ types.setTypeParser(20, (val) => parseInt(val, 10));
 const isBuild =
   process.env.NEXT_PHASE === "phase-production-build" ||
   process.env.NODE_ENV === "production";
+const isVercel = process.env.VERCEL === "1";
 
 // Debug env keys
 const envKeys = Object.keys(process.env).filter(k => k.includes("URL"));
-console.log(`[Prisma] Available URL env keys: ${envKeys.join(", ")}`);
+console.log(`[Prisma] Env check: Vercel=${isVercel}, Build=${isBuild}, keys=[${envKeys.join(", ")}]`);
 
-// Prioritize DIRECT_URL
-const connectionString = process.env.DIRECT_URL || process.env.DATABASE_URL;
+// Vercel handles IPv6 poorly, so use pooler (IPv4) there. 
+// Locally, use DIRECT_URL (IPv6 works and is more stable).
+const connectionString = isVercel 
+  ? process.env.DATABASE_URL 
+  : (process.env.DIRECT_URL || process.env.DATABASE_URL);
+
 
 
 function createPool() {
