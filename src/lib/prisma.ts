@@ -2,30 +2,40 @@ import { Pool } from "pg";
 import { PrismaPg } from "@prisma/adapter-pg";
 import { PrismaClient } from "@/generated/prisma";
 
-const connectionString = process.env.DIRECT_URL || process.env.DATABASE_URL;
+// Prefer DATABASE_URL for Vercel/Production as it often uses the pooler (IPv4 compatible)
+const connectionString = process.env.DATABASE_URL || process.env.DIRECT_URL;
 
 function createPool() {
-  if (!connectionString) return new Pool();
-  
-  try {
-    const url = new URL(connectionString);
-    const config = {
-      user: url.username,
-      password: url.password,
-      host: url.hostname,
-      port: parseInt(url.port),
-      database: url.pathname.slice(1),
-      ssl: connectionString.includes('supabase') ? { rejectUnauthorized: false } : undefined,
-    };
-    
-    console.log(`Connecting to Postgres as ${config.user} on ${config.host}:${config.port}`);
-    return new Pool(config);
-  } catch (e) {
-    console.error("Failed to parse connection string, falling back to string-based pool");
-    return new Pool({ connectionString });
+  if (!connectionString) {
+    console.error("No database URL defined in environment variables");
+    return new Pool();
   }
+  
+  const isSupabase = connectionString.includes('supabase');
+  
+  // Use explicit config for Supabase to avoid IPv6/IPv4 and SSL issues
+  if (isSupabase) {
+    try {
+      const url = new URL(connectionString);
+      return new Pool({
+        user: url.username,
+        password: url.password,
+        host: url.hostname,
+        port: parseInt(url.port || "5432"),
+        database: url.pathname.slice(1),
+        ssl: { rejectUnauthorized: false },
+        // Connection timeout to avoid hanging build
+        connectionTimeoutMillis: 10000,
+      });
+    } catch (e) {
+      return new Pool({ connectionString, ssl: { rejectUnauthorized: false } });
+    }
+  }
+
+  return new Pool({ connectionString });
 }
 
+console.log(`Connecting to database...`);
 const pool = createPool();
 const adapter = new PrismaPg(pool as any);
 
