@@ -7,7 +7,7 @@ export function Hero() {
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-black">
       <div className="absolute inset-0 z-0 pointer-events-none opacity-50 overflow-hidden">
         <iframe
-          src="https://player.vimeo.com/video/838705297?background=1&autoplay=1&loop=1&byline=0&title=0&muted=1"
+          src="https://player.vimeo.com/video/838705297?background=1&autoplay=1&loop=1&byline=0&title=0&muted=1&t=5s"
           className="absolute top-1/2 left-1/2 w-[100vw] h-[56.25vw] min-h-[100vh] min-w-[177.77vh] -translate-x-1/2 -translate-y-1/2 object-cover scale-[1.05]"
           allow="autoplay; fullscreen"
         />
