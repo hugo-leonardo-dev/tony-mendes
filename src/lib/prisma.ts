@@ -14,11 +14,20 @@ const isVercel = process.env.VERCEL === "1";
 const envKeys = Object.keys(process.env).filter(k => k.includes("URL"));
 console.log(`[Prisma] Env check: Vercel=${isVercel}, Build=${isBuild}, keys=[${envKeys.join(", ")}]`);
 
-// Vercel handles IPv6 poorly, so use pooler (IPv4) there. 
-// Locally, use DIRECT_URL (IPv6 works and is more stable).
-const connectionString = isVercel 
+// Environment-specific connection string selection
+let connectionString = isVercel 
   ? process.env.DATABASE_URL 
   : (process.env.DIRECT_URL || process.env.DATABASE_URL);
+
+// On Vercel, if we are in build/prerender and hitting "Circuit Breaker", 
+// try switching to Session Mode (port 5432) which is often more stable for one-off tasks.
+if (isVercel && connectionString?.includes(":6543")) {
+  console.log("[Prisma] Vercel detected: Switching to Session Mode (port 5432) for stability");
+  connectionString = connectionString
+    .replace(":6543", ":5432")
+    .replace("pgbouncer=true", "pgbouncer=false"); // Session mode doesn't need pgbouncer flag
+}
+
 
 
 
