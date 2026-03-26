@@ -19,14 +19,20 @@ let connectionString = isVercel
   ? process.env.DATABASE_URL 
   : (process.env.DIRECT_URL || process.env.DATABASE_URL);
 
-// On Vercel, if we are in build/prerender and hitting "Circuit Breaker", 
-// try switching to Session Mode (port 5432) which is often more stable for one-off tasks.
+// On Vercel, force Session Mode (port 5432) for build stability
 if (isVercel && connectionString?.includes(":6543")) {
-  console.log("[Prisma] Vercel detected: Switching to Session Mode (port 5432) for stability");
-  connectionString = connectionString
-    .replace(":6543", ":5432")
-    .replace("pgbouncer=true", "pgbouncer=false"); // Session mode doesn't need pgbouncer flag
+  console.log("[Prisma] Vercel detected: Forcing Session Mode (port 5432) for build stability");
+  try {
+    const url = new URL(connectionString);
+    url.port = "5432";
+    url.searchParams.delete("pgbouncer");
+    url.searchParams.delete("connection_limit");
+    connectionString = url.toString();
+  } catch (e) {
+    connectionString = connectionString.replace(":6543", ":5432").replace("pgbouncer=true", "pgbouncer=false");
+  }
 }
+
 
 
 
@@ -37,9 +43,16 @@ function createPool() {
     return new Pool();
   }
 
-  const host = connectionString.split("@")[1]?.split(":")[0];
-  const isDirect = connectionString.includes("db.fkwdzlfliskjhenbskvm.supabase.co");
-  console.log(`[Prisma] Selected connection: ${host} (IsDirect: ${isDirect}, Build: ${isBuild})`);
+  try {
+    const urlObj = new URL(connectionString);
+    const host = urlObj.hostname;
+    const port = urlObj.port || "5432";
+    const isDirect = host.includes("db.fkwdzlfliskjhenbskvm.supabase.co");
+    console.log(`[Prisma] Selected: ${host}:${port} (Direct: ${isDirect}, Build: ${isBuild}, Vercel: ${isVercel})`);
+  } catch (e) {
+    console.log(`[Prisma] Selected: (raw) (Build: ${isBuild}, Vercel: ${isVercel})`);
+  }
+
 
   return new Pool({
     connectionString,
