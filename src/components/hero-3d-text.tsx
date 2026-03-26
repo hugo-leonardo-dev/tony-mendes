@@ -1,29 +1,12 @@
 "use client";
 
 import { useRef, useMemo } from "react";
-import { Canvas, useFrame, useThree } from "@react-three/fiber";
+import { Canvas, useFrame } from "@react-three/fiber";
 import { Text3D, Center, Float, PerspectiveCamera, OrbitControls, Environment, ContactShadows, Text } from "@react-three/drei";
 import * as THREE from "three";
 
 function Scene() {
-  const { mouse } = useThree();
   const textRef = useRef<THREE.Group>(null);
-
-  useFrame((state) => {
-    if (textRef.current) {
-      // Subtle mouse-based parallax
-      textRef.current.rotation.y = THREE.MathUtils.lerp(
-        textRef.current.rotation.y,
-        (mouse.x * Math.PI) / 10,
-        0.1
-      );
-      textRef.current.rotation.x = THREE.MathUtils.lerp(
-        textRef.current.rotation.x,
-        (-mouse.y * Math.PI) / 10,
-        0.1
-      );
-    }
-  });
 
   return (
     <>

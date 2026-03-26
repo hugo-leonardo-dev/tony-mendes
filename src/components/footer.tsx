@@ -29,15 +29,6 @@ export function Footer() {
              </div>
           </div>
         </div>
-        
-        <motion.div 
-           className="mt-20 pt-8 border-t border-white/5 text-center"
-           initial={{ opacity: 0 }}
-           whileInView={{ opacity: 1 }}
-           viewport={{ once: true }}
-        >
-           <span className="text-[15vw] font-black text-white/[0.02] tracking-tighter leading-none select-none">TONY MENDES</span>
-        </motion.div>
       </div>
     </footer>
   );

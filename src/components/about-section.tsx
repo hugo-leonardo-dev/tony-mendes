@@ -28,12 +28,13 @@ export function AboutSection() {
             </h3>
             <div className="space-y-6 text-xl text-white/60 font-light leading-relaxed">
               <p>
-                A visionary motion designer and 3D artist dedicated to the art of <span className="text-white">visual storytelling</span>. 
-                I bridge the gap between imagination and reality through high-end digital crafting.
+3D Animator with 5 years of experience creating  high-quality animations for games and cinematics. I specialize in Stylized, Cartoon
+and Realistic Animation, with advanced skills in Keyframe Animation, Acting, Body Mechanics, Gameplay Animation and Lip Sync.
               </p>
               <p>
-                Based in the intersection of <span className="text-white">technology</span> and <span className="text-white">art</span>, 
-                I specialize in creating immersive narratives using industry-leading tools like Blender, Cinema 4D, and After Effects.
+I possess a comprehensive understanding of the game development pipeline,
+allowing me for seamless communication across all project areas and departments. I'm also passionate about mentoring and helping
+to develop fellow artists and new talents.
               </p>
             </div>
           </motion.div>
