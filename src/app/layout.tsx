@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Space_Grotesk, Inter } from "next/font/google";
 import { Toaster } from "@/components/ui/sonner";
+import { MagneticCursor } from "@/components/magnetic-cursor";
 import "./globals.css";
 
 const inter = Inter({
@@ -57,6 +58,7 @@ export default function RootLayout({
       className={`${inter.variable} ${spaceGrotesk.variable} dark antialiased`}
     >
       <body className="min-h-screen bg-zinc-950 text-zinc-50 font-sans">
+        <MagneticCursor />
         {children}
         <Toaster />
       </body>

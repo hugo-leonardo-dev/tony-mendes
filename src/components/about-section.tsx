@@ -2,58 +2,69 @@
 
 import { motion } from "framer-motion";
 
+const stats = [
+  { label: "Years Experience", value: "5+" },
+  { label: "Projects Completed", value: "50+" },
+  { label: "Happy Clients", value: "20+" },
+];
+
 export function AboutSection() {
   return (
-    <section id="about" className="py-24 px-4">
-      <div className="max-w-4xl mx-auto">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="grid md:grid-cols-[1fr_1.5fr] gap-12 items-start"
-        >
-          <div>
-            <h2 className="text-3xl sm:text-4xl font-bold text-white mb-2">
-              About
+    <section id="about" className="py-32 px-6 bg-black">
+      <div className="max-w-6xl mx-auto">
+        <div className="grid lg:grid-cols-2 gap-20 items-center">
+          <motion.div
+            initial={{ opacity: 0, x: -30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
+          >
+            <h2 className="text-sm uppercase tracking-[0.4em] text-white/40 font-bold mb-8">
+              The Designer
             </h2>
-            <div className="h-1 w-12 bg-gradient-to-r from-violet-500 to-fuchsia-500 rounded-full" />
-          </div>
-          <div className="space-y-5">
-            <p className="text-zinc-300 leading-relaxed text-lg">
-              I&apos;m Tony Mendes, a motion designer and 3D artist passionate
-              about bringing ideas to life through animation and visual
-              storytelling.
-            </p>
-            <p className="text-zinc-400 leading-relaxed">
-              With years of experience in motion design, I specialize in
-              creating compelling visual experiences using tools like Blender,
-              Cinema 4D, After Effects, and Houdini. From concept to final
-              render, I craft each project with meticulous attention to detail
-              and a focus on narrative.
-            </p>
-            <p className="text-zinc-400 leading-relaxed">
-              Whether it&apos;s a brand identity animation, a product
-              visualization, or an experimental art piece, I bring the same
-              level of creativity and technical precision to every project.
-            </p>
-            <div className="grid grid-cols-3 gap-6 pt-6 border-t border-zinc-800">
-              <div>
-                <p className="text-2xl font-bold text-white">5+</p>
-                <p className="text-zinc-500 text-sm">Years Experience</p>
-              </div>
-              <div>
-                <p className="text-2xl font-bold text-white">50+</p>
-                <p className="text-zinc-500 text-sm">Projects Completed</p>
-              </div>
-              <div>
-                <p className="text-2xl font-bold text-white">20+</p>
-                <p className="text-zinc-500 text-sm">Happy Clients</p>
-              </div>
+            <h3 className="text-5xl sm:text-6xl font-bold text-white tracking-tighter mb-10 leading-[0.9]">
+              Tony <br />
+              <span className="text-white/30 italic font-light">Mendes</span>
+            </h3>
+            <div className="space-y-6 text-xl text-white/60 font-light leading-relaxed">
+              <p>
+                A visionary motion designer and 3D artist dedicated to the art of <span className="text-white">visual storytelling</span>. 
+                I bridge the gap between imagination and reality through high-end digital crafting.
+              </p>
+              <p>
+                Based in the intersection of <span className="text-white">technology</span> and <span className="text-white">art</span>, 
+                I specialize in creating immersive narratives using industry-leading tools like Blender, Cinema 4D, and After Effects.
+              </p>
             </div>
-          </div>
-        </motion.div>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, x: 30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 1, ease: [0.16, 1, 0.3, 1], delay: 0.2 }}
+            className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-1 gap-8"
+          >
+            {stats.map((stat, i) => (
+              <div key={stat.label} className="group border-l border-white/10 pl-8 py-4 transition-colors hover:border-white/40">
+                <motion.p 
+                   className="text-5xl font-bold text-white mb-2 tabular-nums"
+                   initial={{ opacity: 0, y: 20 }}
+                   whileInView={{ opacity: 1, y: 0 }}
+                   viewport={{ once: true }}
+                   transition={{ duration: 0.8, delay: 0.4 + i * 0.1 }}
+                >
+                  {stat.value}
+                </motion.p>
+                <p className="text-sm uppercase tracking-widest text-white/30 font-bold group-hover:text-white/60 transition-colors">
+                  {stat.label}
+                </p>
+              </div>
+            ))}
+          </motion.div>
+        </div>
       </div>
     </section>
   );
 }
+
