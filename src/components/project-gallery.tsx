@@ -50,9 +50,6 @@ export function ProjectGallery({ projects }: ProjectGalleryProps) {
             <h2 className="text-5xl sm:text-6xl font-bold text-white tracking-tighter mb-4">
               Selected <span className="text-white/30 italic font-light">Works</span>
             </h2>
-            <p className="text-white/40 max-w-md text-lg font-light leading-relaxed">
-              A meticulously curated selection of digital motion and visual experiences.
-            </p>
           </motion.div>
 
           {/* Tag filters */}
