@@ -11,19 +11,6 @@ export function Hero() {
 
       {/* Content Overlay */}
       <div className="relative z-10 text-center px-4 max-w-5xl mx-auto">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
-        >
-          <div className="mb-8 inline-flex items-center gap-3 px-5 py-2 rounded-full border border-white/10 bg-white/5 backdrop-blur-md">
-            <div className="h-2 w-2 rounded-full bg-emerald-400 shadow-[0_0_10px_rgba(52,211,153,0.5)] animate-pulse" />
-            <span className="text-white/60 text-xs font-semibold tracking-widest uppercase">
-              Available for high-end projects
-            </span>
-          </div>
-        </motion.div>
-
         {/* Space for 3D Text handled by Hero3DText component which is absolute inset-0 */}
         <div className="h-[40vh] sm:h-[50vh] flex items-center justify-center">
             {/* The 3D text is rendered here by the canvas behind this div */}
@@ -60,19 +47,6 @@ export function Hero() {
           </a>
         </motion.div>
       </div>
-
-      {/* Scroll indicator */}
-      <motion.div
-        className="absolute bottom-12 left-1/2 -translate-x-1/2"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 1.5, duration: 1.5 }}
-      >
-        <div className="flex flex-col items-center gap-3">
-            <span className="text-[10px] text-white/30 uppercase tracking-[0.3em] font-bold">Scroll Down</span>
-            <div className="w-[1px] h-12 bg-gradient-to-b from-white/50 to-transparent" />
-        </div>
-      </motion.div>
     </section>
   );
 }

@@ -5,20 +5,12 @@ import { MailIcon, ArrowUpRight } from "lucide-react";
 
 const socials = [
   {
-    label: "Instagram",
-    href: "https://instagram.com/tonymendes",
-  },
-  {
-    label: "Twitter / X",
-    href: "https://x.com/tonymendes",
+    label: "Whatsapp",
+    href: "https://whatsa.me/5537991690792/?t=Hi!%20Thanks%20for%20reaching%20me,%20lets%20talk!"
   },
   {
     label: "LinkedIn",
-    href: "https://linkedin.com/in/tonymendes",
-  },
-  {
-    label: "YouTube",
-    href: "https://youtube.com/@tonymendes",
+    href: "https://www.linkedin.com/in/tony-mendes-03006b144/",
   },
 ];
 
@@ -53,11 +45,11 @@ export function ContactSection() {
                 transition={{ duration: 1, ease: [0.16, 1, 0.3, 1], delay: 0.2 }}
             >
                 <a
-                    href="mailto:hello@tonymendes.com"
+                    href="mailto:tonybathista@gmail.com"
                     className="group relative inline-flex items-center gap-4 px-12 py-6 bg-white text-black rounded-full font-bold text-2xl transition-all hover:scale-105 active:scale-95"
                 >
                     <MailIcon className="h-6 w-6" />
-                    hello@tonymendes.com
+                    tonybathista@gmail.com
                     <div className="absolute inset-0 bg-white blur-2xl opacity-0 group-hover:opacity-30 transition-opacity rounded-full" />
                 </a>
             </motion.div>
